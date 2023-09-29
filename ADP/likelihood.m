@@ -1,23 +1,23 @@
 function logL = likelihood(k, mu_all, sd, zero_ind, data)
     nseries = length(data.t);
-    M_vals = [1e-2 2e-2 5e-2 1e-1 2e-1 5e-1 1e0];
-    mu_all = reshape(mu_all, length(M_vals), []);
+    ADP_values = [1e-2 2e-2 5e-2 1e-1 2e-1 5e-1 1e0];
+    mu_all = reshape(mu_all, length(ADP_values), []);
 
     logL = zeros(1, nseries);
     for idx = 1:nseries
-        M = data.M(idx);
+        ADP = data.ADP(idx);
         dt = data.t{idx}(2);
         y = data.y{idx};
         T = length(y);
         
-        Q = Qmat((1-zero_ind).*k, M);
+        Q = Qmat((1-zero_ind).*k, ADP);
         G = abs(expm(dt*Q));
         mchain = dtmc(G);
         
         L = asymptotics(mchain);
         log_correct = 0;
         
-        mu = mu_all(M == M_vals, :);
+        mu = mu_all(ADP == ADP_values, :);
         Lambda = normpdf(y', mu, sd);
         reorganized = Lambda(:, [1 2 2 3 3 4 4 2 3 5]);
         for t = 1:5:T-4
@@ -37,7 +37,6 @@ function logL = likelihood(k, mu_all, sd, zero_ind, data)
             log_correct = log_correct - log(factor);
         end
 
-%         L = L * ones(length(Q), 1);
         logL(idx) = data.w(idx) * log(sum(L)) + log_correct ...
                     - sum((mu - [-180 -197 -210 -222 -241]).^2);
     end

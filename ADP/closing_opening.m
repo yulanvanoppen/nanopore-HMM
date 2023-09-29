@@ -2,7 +2,7 @@ rng('default')
 
 dwell_times = zeros(length(series_selection), 2);
 for idx = series_selection
-    Qopt = Qmat((1-zero_ind).*k_opt, data.M(idx));
+    Qopt = Qmat((1-zero_ind).*k_opt, data.ADP(idx));
     Gopt = abs(expm(dt*Qopt));
     mchain = dtmc(Gopt);
     C = simulate(mchain, 1000000, 'X0', [1 0 0 0 0 0 0 0 0 0]);

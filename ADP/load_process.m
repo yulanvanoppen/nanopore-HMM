@@ -1,4 +1,4 @@
-%% Extract segments
+%% Extract usable segments
 files = ["ADP/10uM_ADP_1.csv";
          "ADP/10uM_ADP_2.csv";
          "ADP/10uM_ADP_3.csv";
@@ -76,7 +76,7 @@ data = struct();
 for idx = 1:nfiles
     raw = csvread(files(idx), 2);
     
-    M = str2double(regexp(files(idx), '[0-9]+', 'match', 'once')) / 1000;
+    ADP = str2double(regexp(files(idx), '[0-9]+', 'match', 'once')) / 1000;
     y = reshape(raw(:, 2:end), 1, []);
     y = y(1:subsample:end);
     dt = raw(subsample+1, 1);
@@ -85,7 +85,7 @@ for idx = 1:nfiles
     nsegments = size(segments{idx}, 1);
     for subidx = 1:nsegments
         segment = segments{idx}(subidx, 1) <= t & t <= segments{idx}(subidx, 2);
-        data.M(nseries+subidx) = M;
+        data.ADP(nseries+subidx) = ADP;
         data.t(nseries+subidx) = {t(1:sum(segment))};
         data.y(nseries+subidx) = {y(segment)};
         data.w(nseries+subidx) = weights(nseries+subidx);

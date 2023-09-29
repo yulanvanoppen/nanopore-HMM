@@ -1,7 +1,7 @@
 rng('default')
 
 for idx = series_selection
-    Qopt = Qmat((1-zero_ind).*k_opt, data.M(idx));
+    Qopt = Qmat((1-zero_ind).*k_opt, data.ADP(idx));
     Gopt = abs(expm(dt*Qopt));
     mchain = dtmc(Gopt);
     C = simulate(mchain, length(data.t{idx})-1, 'X0', [1 0 0 0 0 0 0 0 0 0]);
@@ -9,6 +9,6 @@ for idx = series_selection
     if size(mu_opt, 1) == 1
         data.simulated_emission(idx) = {normrnd(mu_opt(C), sd_opt(C))};
     else
-        data.simulated_emission(idx) = {normrnd(mu_opt(data.M(idx)==M_vals, C), sd_opt(C))};
+        data.simulated_emission(idx) = {normrnd(mu_opt(data.ADP(idx)==ADP_values, C), sd_opt(C))};
     end
 end
