@@ -22,7 +22,7 @@ During optimization, all transition rates are initially bound between 1E-1 and 1
 
 
 ## References
-[1] Galenkamp, Nicole S., Zernia, Sarah, van Oppen, Yulan B., Milias-Argeitis, Andreas & Maglia, Giovanni (2023). Endostery controls the hierarchical domain closure in adenylate kinase catalysis. _Manuscript in preparation_.
+[1] Galenkamp, Nicole S., Zernia, Sarah, van Oppen, Yulan B., Milias-Argeitis, Andreas & Maglia, Giovanni (2023). Allostery can convert binding free energies into concerted domain motions in enzymes. _In press_.
 
 [2] MacDonald, Iain L., & Walter Zucchini (1997). _Hidden Markov and other models for discrete-valued time series_. Vol. 110. CRC Press.
 
