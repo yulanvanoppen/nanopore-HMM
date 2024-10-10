@@ -11,25 +11,24 @@ Navigate to `ADP/` and run `example.m` to
 
 &nbsp;
 
+
 ## Technical details
 This software package contains the functions and scripts used to infer a Hidden Markov Model (HMM) from ionic current flow data of the enzyme adenylate kinase (AdK) [1].
 
 The HMM is determined by transition rates $\mathbf k$ and emmission distribution parameter vectors $\boldsymbol\mu, \boldsymbol\sigma$. The likelihood $L(\mathbf k, \boldsymbol\mu, \boldsymbol\sigma; \mathbf y)$ given a time series $\mathbf y$ is computed as in [2, Section2.5]; see _Materials and Methods_ in [1] for the details specific to this research. For computational efficiency, equation (2.24) was evaluated by normalizing to prevent under or overflow every five time points.
 
-During optimization, transition rates are generally bound between 1E-1 and 1E6, with a few exceptions:
-
-[TABLE]
+During optimization, all transition rates are initially bound between 1E-1 and 1E6. Exceptions are only implemented to prevent optimization routines ending up at clearly infeasible model configurations in light of the experimental data.
 
 &nbsp;
+
 
 ## References
 [1] Galenkamp, Nicole S., Zernia, Sarah, van Oppen, Yulan B., Milias-Argeitis, Andreas & Maglia, Giovanni (2023). Endostery controls the hierarchical domain closure in adenylate kinase catalysis. _Manuscript in preparation_.
 
 [2] MacDonald, Iain L., & Walter Zucchini (1997). _Hidden Markov and other models for discrete-valued time series_. Vol. 110. CRC Press.
 
-
-
 &nbsp;
+
 
 ## DISCLAIMER
 Permission is hereby granted, free of charge, to any person obtaining a copy
