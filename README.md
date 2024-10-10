@@ -4,10 +4,9 @@ _MATLAB code package HMM inference, specifically tailored to nanopore ionic curr
 &nbsp;
 
 ## Quickstart
-Navigate to `ADP/` and run `example.m` to
-- simulate ionic current flow data;
-- recover the HMM parameters using likelihood maximization;
-- examine model fit and predictions.
+To reproduce the model inference results in [1], run `ADP/estimate.m` and `ATP_AMP/estimate.m` for the ADP and the ATP/AMP models, respectively, making sure to uncomment the Q-matrix of interest in `ATP_AMP/Qmat.m`.
+
+Additionally, the predicted closing and opening rates of the LID domain for either model are estimated using `ADP/closing_opening.m` and `ATP_AMP/closing_opening`. 
 
 &nbsp;
 
