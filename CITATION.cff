@@ -1,0 +1,11 @@
+ukbhfcff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "van Oppen"
+  given-names: "Yulan"
+  orcid: "https://orcid.org/0000-0001-8214-2907"
+title: "Nanopore HMM software package"
+version: 1.0.0
+doi: 10.5281/zenodo.13911924
+date-released: 2024-10-10
+url: "https://github.com/yulanvanoppen/nanopore-HMM"
