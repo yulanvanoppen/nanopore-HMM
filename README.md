@@ -50,8 +50,6 @@ The ATP/AMP model topology is selected with the variable `Q_variant` at the top 
 
 **Data** (`ADP/ADP/`, `ATP_AMP/ATP/`, `ATP_AMP/AMP/`): CSV exports of the current recordings, named by ligand concentration and replicate (e.g. `1000uMATP+50uMAMP_2.csv`). The first row contains sweep start times (s), the second row column headers; the first column is time within a sweep (sampling interval 20 µs), and each further column contains one sweep of current values (pA). Original Axon `.abf` files are included where available. `ADP/ADP/50uMADP_3_typeII.csv` is not used in the analysis.
 
-`ADP/model.jpg` is a whiteboard sketch of an early version of the model (its notation differs from the code).
-
 &nbsp;
 
 ## Technical details
