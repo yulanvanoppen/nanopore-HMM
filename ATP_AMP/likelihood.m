@@ -12,7 +12,7 @@ function logL = likelihood(k, mu_all, sd, zero_ind, data)
 %   under- or overflow. A quadratic penalty keeps the emission means close
 %   to nominal current levels; removed rates are penalized heavily.
 
-    if isfield(data, 'Q_variant'), variant = data.Q_variant; else, variant = "additional_transition"; end
+    if isfield(data, 'Q_variant'), variant = data.Q_variant; else, variant = "candidate"; end
     nseries = length(data.t);
     ATP_vals = [1e-2 1e-1 1 1 1 1];
     AMP_vals = [0 0 0 1e-2 1e-1 1];

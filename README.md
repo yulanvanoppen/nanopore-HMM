@@ -26,9 +26,11 @@ _MATLAB code for Hidden Markov Model (HMM) inference from nanopore ionic current
 Run each script in MATLAB (it changes the current folder to its own folder, as data paths are relative). Random seeds are fixed (`rng('default')`), but parallel multistarts and MATLAB versions may cause small numerical differences.
 
 The ATP/AMP model topology is selected with the variable `Q_variant` at the top of `ATP_AMP/estimate.m` (see `ATP_AMP/Qmat.m`):
-- `"additional_transition"` (default): candidate configuration with an additional transition M → Maa;
-- `"candidate"`: candidate configuration (same topology as the ADP model);
-- `"equal_rates"`: candidate configuration with equal rates Ma ↔ M2a and M2aa ↔ Maa.
+- `"candidate"` (default): candidate configuration (same topology as the ADP model), used for the main results in [1];
+- `"equal_rates"`: alternative with equal rates Ma ↔ M2a and M2aa ↔ Maa;
+- `"additional_transition"`: alternative with an additional transition Ma → Maa.
+
+> **Version note:** in the archived v1.0.0 release ([Zenodo](https://doi.org/10.5281/zenodo.13911924)), the model variant is selected by uncommenting it in `ATP_AMP/Qmat.m`, with the `"additional_transition"` alternative active by default; to reproduce the main results in [1] with that release, select the candidate configuration instead. The `"additional_transition"` alternative in v1.0.0 also contains an outdated transition (M → Maa instead of Ma → Maa), which is corrected here.
 
 &nbsp;
 

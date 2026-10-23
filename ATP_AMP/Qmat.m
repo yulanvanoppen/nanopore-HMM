@@ -7,16 +7,17 @@ function Q = Qmat(k, T, M, variant)
 %   concentration M (both in mM).
 %
 %   Q = QMAT(k, T, M, variant) selects the model topology:
-%     "additional_transition" (default) - candidate configuration with an
-%         additional transition Ma -> Maa (rate k(9)*M) and Maa -> Ma (k(10))
-%     "candidate"   - candidate configuration (same topology as the ADP model)
-%     "equal_rates" - candidate configuration with equal rates
+%     "candidate" (default) - candidate configuration (same topology as the
+%                     ADP model), used for the main results
+%     "equal_rates" - alternative: candidate configuration with equal rates
 %                     Ma <-> M2a and M2aa <-> Maa
+%     "additional_transition" - alternative: candidate configuration with an
+%         additional transition Ma -> Maa (rate k(9)*M) and Maa -> Ma (k(10))
 %
 %   States: 0 M0, 1 M, 2 Ma, 3 M1, 4 M1a, 5 M2a, 6 M2aa, 7 Maa, 8 M1aa, 9 M3aa
 %   (MATLAB indices 1-10).
 
-    if nargin < 4, variant = "additional_transition"; end
+    if nargin < 4, variant = "candidate"; end
 
     switch string(variant)
         case "candidate"

@@ -8,8 +8,8 @@ clearvars
 script_dir = fileparts(mfilename('fullpath'));                             % data paths are relative to this folder
 if ~isempty(script_dir), cd(script_dir), end
 
-Q_variant = "additional_transition";                                        % model topology, see Qmat.m:
-                                                                            % "additional_transition", "candidate", "equal_rates"
+Q_variant = "candidate";                                                    % model topology (main results), see Qmat.m;
+                                                                            % alternatives: "equal_rates", "additional_transition"
 load_process
 
 
