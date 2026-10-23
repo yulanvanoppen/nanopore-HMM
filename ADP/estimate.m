@@ -1,5 +1,13 @@
+%% Fit the ADP HMM to nanopore current recordings of adenylate kinase
+% Selects one (random, seeded) recording segment per ADP concentration,
+% fits the HMM by multistarted maximum likelihood (fit.m), and plots the
+% optimized rates, simulated data, and predicted LID closing/opening rates.
+% Requirements: see README.md. Uses parfor (Parallel Computing Toolbox) if available.
+
 %% Load data
 clearvars
+script_dir = fileparts(mfilename('fullpath'));                             % data paths are relative to this folder
+if ~isempty(script_dir), cd(script_dir), end
 load_process
 
 
@@ -35,7 +43,7 @@ end
 mu = mu_segments();
 mu = reshape(mu(series_selection, :), 1, []);
 
-lb_k = -ones(1, 16);
+lb_k = -ones(1, 16);                                                        % log10 bounds on rates k(1:16)
 ub_k = 6*ones(1, 16);
 
 lb_k(1) = 4;

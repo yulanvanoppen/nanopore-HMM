@@ -1,5 +1,5 @@
-M_ind = [1 12 20 23 28 31 36];
-M_vals = data.M(M_ind);
+M_ind = [1 12 20 23 28 31 36];                                             % first segment for each ADP concentration
+M_vals = data.ADP(M_ind);
 dist = zeros(length(M_ind), 8);
 Qopt = zeros(10, 10, length(M_ind));
 Topt = zeros(10, 10, length(M_ind));
@@ -17,7 +17,7 @@ LID_closing = zeros(1, length(M_vals));
 LID_opening = zeros(1, length(M_vals));
 
 for idx = 1:length(M_ind)
-    Qopt(:, :, idx) = Qmat(k_opt, M_vals(idx));
+    Qopt(:, :, idx) = Qmat((1-zero_ind).*k_opt, M_vals(idx));
     Topt(:, :, idx) = eye(size(Qopt, 1)) + 2e-7*Qopt(:, :, idx);
     Trel(:, :, idx) = (Topt(2:end, 2:end, idx) - diag(diag(Topt(2:end, 2:end, idx)))) ...
                         ./ (1-diag(Topt(2:end, 2:end, idx)) - Topt(2:end, 1, idx));
@@ -39,4 +39,4 @@ for idx = 1:length(M_ind)
     M2_M(idx) = sum(redist_M2(1:2));
     M2_M1(idx) = sum(redist_M2(3:4));
     M2_M3(idx) = redist_M2(9);
-end
+end

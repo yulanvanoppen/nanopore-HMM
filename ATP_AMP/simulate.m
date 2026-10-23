@@ -5,7 +5,8 @@ ATP_vals = data.ATP(series_selection);
 AMP_vals = data.AMP(series_selection);
 
 for idx = series_selection
-    Qopt = Qmat((1-zero_ind).*k_opt, data.ATP(idx), data.AMP(idx));
+    dt = data.t{idx}(2);
+    Qopt = Qmat((1-zero_ind).*k_opt, data.ATP(idx), data.AMP(idx), Q_variant);
     Gopt = abs(expm(dt*Qopt));
     mchain = dtmc(Gopt);
     C = simulate(mchain, length(data.t{idx})-1, 'X0', [1 0 0 0 0 0 0 0 0 0]);
@@ -13,4 +14,4 @@ for idx = series_selection
     ATP = data.ATP(idx);
     AMP = data.AMP(idx);
     data.simulated_emission(idx) = {normrnd(mu_opt(ATP==ATP_vals & AMP==AMP_vals, C), sd_opt(C))};
-end
+end

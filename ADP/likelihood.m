@@ -1,4 +1,15 @@
 function logL = likelihood(k, mu_all, sd, zero_ind, data)
+%LIKELIHOOD log-likelihood of the ADP HMM for the selected time series.
+%
+%   k        - transition rates (24 elements, see QMAT)
+%   mu_all   - emission means (7 ADP concentrations x 5 levels)
+%   sd       - emission standard deviations (5 levels)
+%   zero_ind - indicator of rates that are removed from the model
+%   data     - struct with fields ADP, t, y, w (one element per series)
+%
+%   The forward algorithm is rescaled every five time points to prevent
+%   under- or overflow. A quadratic penalty keeps the emission means close
+%   to nominal current levels; removed rates are penalized heavily.
     nseries = length(data.t);
     ADP_values = [1e-2 2e-2 5e-2 1e-1 2e-1 5e-1 1e0];
     mu_all = reshape(mu_all, length(ADP_values), []);
@@ -41,4 +52,4 @@ function logL = likelihood(k, mu_all, sd, zero_ind, data)
                     - sum((mu - [-180 -197 -210 -222 -241]).^2);
     end
     logL = -1e7*sum(zero_ind.*k) + sum(logL);
-end
+end

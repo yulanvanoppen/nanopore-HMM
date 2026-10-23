@@ -1,5 +1,5 @@
-ukbhfcff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+cff-version: 1.2.0
+message: "If you use this software, please cite the article below and the software archive."
 authors:
 - family-names: "van Oppen"
   given-names: "Yulan"
@@ -9,3 +9,28 @@ version: 1.0.0
 doi: 10.5281/zenodo.13911924
 date-released: 2024-10-10
 url: "https://github.com/yulanvanoppen/nanopore-HMM"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Allostery can convert binding free energies into concerted domain motions in enzymes"
+  authors:
+    - family-names: "Galenkamp"
+      given-names: "Nicole Stéphanie"
+    - family-names: "Zernia"
+      given-names: "Sarah"
+    - family-names: "van Oppen"
+      given-names: "Yulan B."
+      orcid: "https://orcid.org/0000-0001-8214-2907"
+    - family-names: "van den Noort"
+      given-names: "Marco"
+    - family-names: "Milias-Argeitis"
+      given-names: "Andreas"
+    - family-names: "Maglia"
+      given-names: "Giovanni"
+  journal: "Nature Communications"
+  volume: 15
+  issue: 1
+  start: "10109"
+  year: 2024
+  doi: 10.1038/s41467-024-54421-9
+  url: "https://doi.org/10.1038/s41467-024-54421-9"

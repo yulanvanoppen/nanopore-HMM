@@ -2,6 +2,7 @@ rng('default')
 
 dwell_times = zeros(length(series_selection), 2);
 for idx = series_selection
+    dt = data.t{idx}(2);
     Qopt = Qmat((1-zero_ind).*k_opt, data.ADP(idx));
     Gopt = abs(expm(dt*Qopt));
     mchain = dtmc(Gopt);
@@ -18,4 +19,4 @@ for idx = series_selection
     dwell_times(idx == series_selection, 2) = mean(counts*dt);
 end
 
-rates = dwell_times.^-1;
+rates = dwell_times.^-1;

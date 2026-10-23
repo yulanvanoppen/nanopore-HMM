@@ -1,4 +1,11 @@
 function Q = Qmat(k, ADP)
+%QMAT generator matrix of the ADP adenylate kinase HMM.
+%
+%   Q = QMAT(k, ADP) returns the 10x10 transition rate matrix for rate
+%   vector k (24 elements: k(1:16) between conformational/binding states,
+%   k(17:24) to/from the M0 state) and ADP concentration ADP (mM).
+%   States: 0 M0, 1 M, 2 Ma, 3 M1, 4 M1a, 5 M2a, 6 M2aa, 7 Maa, 8 M1aa, 9 M3aa
+%   (MATLAB indices 1-10).
     %  0 M0   1-M    2-Ma      3-M1   4-M1a     5-M2a  6-M2aa    7-Maa  8-M1aa  9-M3aa
     Q = [0      k(17)  k(19)     k(21)  k(23)     0      0         0      0       0    ;        % 0: M0
          k(18)  0      k(1)*ADP  k(3)   0         0      0         0      0       0    ;        % 1: M
@@ -11,4 +18,4 @@ function Q = Qmat(k, ADP)
          0      0      0         0      0         0      k(14)     0      0       0    ;        % 8: M1aa
          0      0      0         0      0         0      k(16)     0      0       0    ];       % 9: M3aa
     Q = Q - diag(sum(Q, 2));
-end
+end

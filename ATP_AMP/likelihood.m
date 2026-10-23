@@ -1,4 +1,18 @@
 function logL = likelihood(k, mu_all, sd, zero_ind, data)
+%LIKELIHOOD log-likelihood of the ATP/AMP HMM for the selected time series.
+%
+%   k        - transition rates (24 elements, see QMAT)
+%   mu_all   - emission means (6 concentration combinations x 5 levels)
+%   sd       - emission standard deviations (5 levels)
+%   zero_ind - indicator of rates that are removed from the model
+%   data     - struct with fields ATP, AMP, t, y, w (one element per series)
+%              and optionally Q_variant (see QMAT)
+%
+%   The forward algorithm is rescaled every five time points to prevent
+%   under- or overflow. A quadratic penalty keeps the emission means close
+%   to nominal current levels; removed rates are penalized heavily.
+
+    if isfield(data, 'Q_variant'), variant = data.Q_variant; else, variant = "additional_transition"; end
     nseries = length(data.t);
     ATP_vals = [1e-2 1e-1 1 1 1 1];
     AMP_vals = [0 0 0 1e-2 1e-1 1];
@@ -12,7 +26,7 @@ function logL = likelihood(k, mu_all, sd, zero_ind, data)
         y = data.y{idx};
         T = length(y);
         
-        Q = Qmat((1-zero_ind).*k, ATP, max(1e-4, AMP));
+        Q = Qmat((1-zero_ind).*k, ATP, max(1e-4, AMP), variant);
         G = abs(expm(dt*Q));
         mchain = dtmc(G);
         
@@ -43,4 +57,4 @@ function logL = likelihood(k, mu_all, sd, zero_ind, data)
                     - sum((mu - [-185 -203 -215 -228 -239]).^2);
     end
     logL = -1e7*sum(zero_ind.*k) + sum(logL);
-end
+end

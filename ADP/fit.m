@@ -12,7 +12,7 @@ ub = [[ub_k, ub_c],              ub_mu, ub_sd];
 k_len = length(lb_k) + length(lb_c);
 mu_len = numel(mu);
 
-selection.M = data.M(series_selection);
+selection.ADP = data.ADP(series_selection);
 selection.t = data.t(series_selection);
 selection.y = data.y(series_selection);
 selection.w = data.w(series_selection);
@@ -20,7 +20,7 @@ selection.w = data.w(series_selection);
 lengths = cellfun(@length, selection.t);
 selection.t = cellfun(@(x) x(1:min(lengths)), selection.t, 'UniformOutput', false);
 selection.y = cellfun(@(x) x(1:min(lengths)), selection.y, 'UniformOutput', false);
-selection.w = ones(1, length(selection.w));
+selection.w = ones(1, length(selection.w));                                % (equal weights are used)
 
 
 %% Multistarted optimization
@@ -41,7 +41,7 @@ parfor start = 1:nstart
                                          init, [], [], [], [], lb, ub, [], options);
             opts(start, :) = opt_new;
             vals(start) = val_new;
-            hess(:, :, start) = hess_new
+            hess(:, :, start) = hess_new;
         catch ME
             disp(ME)
         end
@@ -55,6 +55,6 @@ time_taken = toc
 opt = opts(best, :);
 
 k_opt = 10.^opt(1:k_len);
-mu_opt = reshape(opt(k_len+1:k_len+mu_len), length(M_vals), []);
+mu_opt = reshape(opt(k_len+1:k_len+mu_len), length(ADP_values), []);
 mu_opt = mu_opt(:, [1 2 2 3 3 4 4 2 3 5]);
-sd_opt = 10.^opt(k_len+mu_len + [1 2 2 3 3 4 4 2 3 5]);
+sd_opt = 10.^opt(k_len+mu_len + [1 2 2 3 3 4 4 2 3 5]);

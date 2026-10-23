@@ -17,7 +17,7 @@ LID_closing = zeros(1, length(ATP_vals));
 LID_opening = zeros(1, length(ATP_vals));
 
 for idx = 1:length(ATP_ind)
-    Qopt(:, :, idx) = Qmat(k_opt, ATP_vals(idx), 0);
+    Qopt(:, :, idx) = Qmat((1-zero_ind).*k_opt, ATP_vals(idx), 0, Q_variant);
     Topt(:, :, idx) = eye(size(Qopt, 1)) + 2e-7*Qopt(:, :, idx);
     Trel(:, :, idx) = (Topt(2:end, 2:end, idx) - diag(diag(Topt(2:end, 2:end, idx)))) ...
                         ./ (1-diag(Topt(2:end, 2:end, idx)) - Topt(2:end, 1, idx));
@@ -39,4 +39,4 @@ for idx = 1:length(ATP_ind)
     M2_M(idx) = sum(redist_M2(1:2));
     M2_M1(idx) = sum(redist_M2(3:4));
     M2_M3(idx) = redist_M2(9);
-end
+end

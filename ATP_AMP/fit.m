@@ -23,7 +23,8 @@ selection.w = data.w(series_selection);
 lengths = cellfun(@length, selection.t);
 selection.t = cellfun(@(x) x(1:min(min(lengths), 50000)), selection.t, 'UniformOutput', false);
 selection.y = cellfun(@(x) x(1:min(min(lengths), 50000)), selection.y, 'UniformOutput', false);
-selection.w = ones(1, length(selection.w));
+selection.w = ones(1, length(selection.w));                                % (equal weights are used)
+selection.Q_variant = Q_variant;
 
 
 %% Multistarted optimization
@@ -44,7 +45,7 @@ parfor start = 1:nstart
                                          init, [], [], [], [], lb, ub, [], options);
             opts(start, :) = opt_new;
             vals(start) = val_new;
-            hess(:, :, start) = hess_new
+            hess(:, :, start) = hess_new;
         catch ME
             disp(ME)
         end
@@ -60,4 +61,4 @@ opt = opts(best, :);
 k_opt = 10.^opt(1:k_len);
 mu_opt = reshape(opt(k_len+1:k_len+mu_len), length(ATP_vals), []);
 mu_opt = mu_opt(:, [1 2 2 3 3 4 4 2 3 5]);
-sd_opt = 10.^opt(k_len+mu_len + [1 2 2 3 3 4 4 2 3 5]);
+sd_opt = 10.^opt(k_len+mu_len + [1 2 2 3 3 4 4 2 3 5]);

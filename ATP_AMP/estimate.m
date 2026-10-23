@@ -1,4 +1,15 @@
+%% Fit the ATP/AMP HMM to nanopore current recordings of adenylate kinase
+% Selects one recording segment per ATP/AMP concentration combination,
+% fits the HMM by multistarted maximum likelihood (fit.m), and plots the
+% optimized rates, simulated data, and predicted LID closing/opening rates.
+% Requirements: see README.md. Uses parfor (Parallel Computing Toolbox) if available.
+
 clearvars
+script_dir = fileparts(mfilename('fullpath'));                             % data paths are relative to this folder
+if ~isempty(script_dir), cd(script_dir), end
+
+Q_variant = "additional_transition";                                        % model topology, see Qmat.m:
+                                                                            % "additional_transition", "candidate", "equal_rates"
 load_process
 
 
@@ -61,10 +72,7 @@ end
 mu = mu_segments();
 mu = reshape(mu(series_selection, :), 1, []);
 
-lb_k = -ones(1, 16);
-ub_k = 6*ones(1, 16);
-
-lb_k = -ones(1, 16);
+lb_k = -ones(1, 16);                                                        % log10 bounds on rates k(1:16)
 ub_k = 6*ones(1, 16);
 
 lb_k(1)  = 1   ;
@@ -105,17 +113,17 @@ emitted_transitions
 figure
 tiledlayout(1, 2)
 nexttile
-showQ(Qopt(:, :, 1), sprintf('Qopt (|ATP|=%.2f, |AMP|=%.2f)', ATP_vals(1), AMP_vals(1)), true)
+showQ(Qopt(:, :, 1), sprintf('Qopt (|ATP|=%.2f, |AMP|=0)', ATP_vals(1)), true)
 nexttile
-showQ(Qopt(:, :, end), sprintf('Qopt (|ATP|=%.2f, |AMP|=%.2f)', ATP_vals(end), AMP_vals(end)), true)
+showQ(Qopt(:, :, end), sprintf('Qopt (|ATP|=%.2f, |AMP|=0)', ATP_vals(end)), true)
 
 figure, hold on
 semilogx(ATP_vals, [M_M1; M_M2]', ':')
 semilogx(ATP_vals, [M1_M; M1_M2]', '-.')
 semilogx(ATP_vals, [M2_M; M2_M1; M2_M3]', '--')
 legend('M-M1', 'M-M2', 'M1-M', 'M1-M2', 'M2-M', 'M2-M1', 'M2-M3')
-title('State change distributions w.r.t. |ADP|')
-xlabel('|ADP| (mM)')
+title('State change distributions w.r.t. |ATP|')
+xlabel('|ATP| (mM)')
 ylabel('fraction')
 set(gca, 'XScale', 'log');
 hold off
@@ -158,7 +166,7 @@ tl.Title.String = 'Simulated emissions';
 for idx = series_selection
     nexttile
     plot(data.t{idx}, data.simulated_emission{idx})
-    title(sprintf('(|ATP|, |AMP) = (%.3f, %.3f) mM', ...
+    title(sprintf('(|ATP|, |AMP|) = (%.3f, %.3f) mM', ...
                   ATP_vals(idx == series_selection), AMP_vals(idx == series_selection)));
     ylim([-260 -160])
     xlabel('time (sec)')
@@ -172,7 +180,7 @@ tl.Title.String = 'Simulated states';
 for idx = series_selection
     nexttile
     plot(data.t{idx}, data.simulated_chain{idx})
-    title(sprintf('(|ATP|, |AMP) = (%.3f, %.3f) mM', ...
+    title(sprintf('(|ATP|, |AMP|) = (%.3f, %.3f) mM', ...
                   ATP_vals(idx == series_selection), AMP_vals(idx == series_selection)));
     xlabel('time (sec)')
     ylabel('state (index)')
@@ -201,8 +209,8 @@ xlabel('|ATP| (mM)')
 ylabel('rate (sec^-^1)')
 
 nexttile
-plot(AMP_vals, rates(1:end-1, 3))
+plot(AMP_vals, rates(1:end-1, 3))                                          % (|ATP| = 1 mM)
 title('LID opening')
 ylim([0, max(rates(:, 2:3), [], 'all')*1.2])
 xlabel('+|AMP| (mM)')
-ylabel('rate (sec^-^1)')
+ylabel('rate (sec^-^1)')

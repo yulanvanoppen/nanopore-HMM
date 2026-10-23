@@ -89,9 +89,9 @@ for idx = 1:nfiles
         data.t(nseries+subidx) = {t(1:sum(segment))};
         data.y(nseries+subidx) = {y(segment)};
         data.w(nseries+subidx) = weights(nseries+subidx);
-        if max(y(segment) > -100)
-            disp(1)
+        if any(y(segment) > -100)                                           % sanity check on segment selection
+            warning('Segment %d of %s contains currents above -100 pA.', subidx, files(idx))
         end
     end
     nseries = nseries + nsegments;
-end
+end
